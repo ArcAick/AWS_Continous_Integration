@@ -1,13 +1,11 @@
 var express = require('express'), http = require('http');
 var app = express();
+
 var AWS = require("aws-sdk");
 
 AWS.config.update({
-	region: process.env.DYNAMO_REGION,
-	endpoint: process.env.DYNAMMO_ENDPOINT
+    region: "us-west-2"
 });
-
-var docClient = new AWS.DynamoDB.DocumentClient();
 
 app.get('/', function(req, res) {
 	res.send('Wow');
