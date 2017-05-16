@@ -28,7 +28,7 @@ app.get('/user/:userId', function(req, res) {
 	
 	docClient.get(params, function(err, data) {
 		if(err) {
-			res.send("error while reading: " + JSON;stringify(err, nulln2));
+			res.send("error while reading: " + JSON;stringify(err, null, 2));
 		} else {
 			res.send("get item: " + JSON.stringify(data, null, 2));
 		}
