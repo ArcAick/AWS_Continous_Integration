@@ -3,7 +3,7 @@ var app = express();
 var AWS = require("aws-sdk");
 
 AWS.config.update({
-	region.process.env.DYNAMO_REGION,
+	region: process.env.DYNAMO_REGION,
 	endpoint: process.env.DYNAMMO_ENDPOINT
 });
 
