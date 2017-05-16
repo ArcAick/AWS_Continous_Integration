@@ -15,7 +15,6 @@ app.get('/users', function (req, res) {
     
 });
 
-
 app.get('/user/:userId/:promo', function (req, res) {
     var docClient = new AWS.DynamoDB.DocumentClient();
 	
