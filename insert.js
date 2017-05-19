@@ -22,7 +22,7 @@ app.get('/movies', function (req, res) {
 	}});
 	console.log('Connected to database.');
 
-	connection.query('INSERT INTO movies VALUES (1, "le chateau dans le ciel", "Animation")', function (error, results, fields) {
+	connection.req('INSERT INTO movies VALUES (1, "le chateau dans le ciel", "Animation")', function (error, results, fields) {
 		connection.end();
 		if (results !== undefined) {
 			res.send(results);
