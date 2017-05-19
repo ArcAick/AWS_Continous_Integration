@@ -1,41 +1,39 @@
 var express = require('express'), http = require('http');
 var app = express();
 
-var AWS = require("aws-sdk");
 
-AWS.config.update({
-    region: process.env.dynamoDB_REGION
+
+var mysql = require('mysql');
+
+var connection = mysql.createConnection({
+  host     : process.env.RDS_HOSTNAME,
+  user     : process.env.RDS_USERNAME,
+  password : process.env.RDS_PASSWORD,
+  port     : process.env.RDS_PORT,
+  database : process.env.RDS_DB_NAME
 });
 
 app.get('/', function (req, res) {
-    res.send('Wow - CI');
+    res.send('200');
 });
 
-app.get('/users', function (req, res) {
-    
-});
+app.get('/movies', function (req, res) {
+	connection.connect(function(err) {
+	if (err) {
+		console.error('Database connection failed: ' + err.stack);
+		res.send('Database connection failed: ' + err.stack);
+		return;
+	}});
+	console.log('Connected to database.');
 
-app.get('/user/:userId/:promo', function (req, res) {
-    var docClient = new AWS.DynamoDB.DocumentClient();
-	
-	var userId = req.params["userId"];
-	var promo = req.params["promo"];
-	
-    var params = {
-        TableName: "users",
-        Key:{
-            "id_user": userId,
-			"promo": promo
-        }
-    };
-	
-    docClient.get(params, function(err, data) {
-        if (err) {
-            res.send("Unable to read item. Error JSON:" + JSON.stringify(err, null, 2));
-        } else {
-            res.send("GetItem succeeded:" + JSON.stringify(data, null, 2));
-        }
-    });
+	connection.query('INSERT INTO movies VALUES (1, "le chateau dans le ciel", "Animation"', function (error, results, fields) {
+		connection.end();
+		if (results !== undefined) {
+			res.send(results);
+		} else {
+			res.send(error);
+		}
+	});
 });
 
 app.listen(process.env.PORT, function () {
